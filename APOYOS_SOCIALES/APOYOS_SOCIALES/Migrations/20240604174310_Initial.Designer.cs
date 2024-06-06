@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APOYOSSOCIALES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240507021234_Initial")]
+    [Migration("20240604174310_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -46,11 +46,62 @@ namespace APOYOSSOCIALES.Migrations
                     b.ToTable("Activetokens");
                 });
 
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.Apoyo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AreaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comentarios")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ComunidadId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Foto")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Ubicacion")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AreaId");
+
+                    b.HasIndex("ComunidadId");
+
+                    b.ToTable("Apoyos");
+                });
+
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Area", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Icono")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -132,6 +183,29 @@ namespace APOYOSSOCIALES.Migrations
                     b.ToTable("Rols");
                 });
 
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.TipoIncidencia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Icono")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TiposIncidencias");
+                });
+
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -166,6 +240,25 @@ namespace APOYOSSOCIALES.Migrations
                     b.HasIndex("RolId");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.Apoyo", b =>
+                {
+                    b.HasOne("APOYOS_SOCIALES.Entities.Area", "Area")
+                        .WithMany()
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("APOYOS_SOCIALES.Entities.Comunidad", "Comunidad")
+                        .WithMany()
+                        .HasForeignKey("ComunidadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Area");
+
+                    b.Navigation("Comunidad");
                 });
 
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Claim", b =>

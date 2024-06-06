@@ -19,6 +19,9 @@ namespace APOYOS_SOCIALES
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Area> Areas { get; set; } 
+        public DbSet<Apoyo> Apoyos { get; set; }
+        public DbSet<TipoIncidencia> TiposIncidencias { get; set; } 
+
 
     }
 }

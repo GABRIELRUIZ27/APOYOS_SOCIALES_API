@@ -37,8 +37,13 @@ namespace simpatizantes_api.Utilities
             CreateMap<ProgramaSocial, ProgramaSocialDTO>();
             CreateMap<ProgramaSocialDTO, ProgramaSocial>();
 
+            CreateMap<ApoyoDTO, Apoyo>();
+            CreateMap<Apoyo, ApoyoDTO>()
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area))
+                .ForMember(dest => dest.Comunidad, opt => opt.MapFrom(src => src.Comunidad));
 
-
+            CreateMap<TipoIncidencia, TipoIncidenciaDTO>();
+            CreateMap<TipoIncidenciaDTO, TipoIncidencia>();
 
         }
     }

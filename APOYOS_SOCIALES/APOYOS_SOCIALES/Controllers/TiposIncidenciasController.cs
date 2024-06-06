@@ -14,54 +14,36 @@ using APOYOS_SOCIALES.Filters;
 namespace APOYOS_SOCIALES.Controllers
 {
     [Authorize]
-    [Route("api/areas")]
+    [Route("api/tipos-incidencias")]
     [ApiController]
     [TokenValidationFilter]
 
-    public class AreasController : ControllerBase
+    public class TiposIncidenciasController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
 
-        public AreasController(ApplicationDbContext context, IMapper mapper)
+        public TiposIncidenciasController(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
-            this.mapper = mapper;
+            this.mapper = mapper; 
         }
 
         [HttpGet("obtener-todos")]
-        public async Task<ActionResult<List<AreaDTO>>> GetAll()
+        public async Task<ActionResult<List<TipoIncidenciaDTO>>> GetAll()
         {
             try
             {
-                var areas = await context.Areas.ToListAsync();
+                var tipo = await context.TiposIncidencias.ToListAsync();
 
-                if (!areas.Any())
+                if (!tipo.Any())
                 {
                     return NotFound();
                 }
 
-                // Obtener el total de apoyos por área
-                var totalApoyosPorArea = await context.Apoyos
-                    .GroupBy(apoyo => apoyo.Area.Id)
-                    .Select(grupo => new { AreaId = grupo.Key, TotalApoyos = grupo.Count() })
-                    .ToDictionaryAsync(x => x.AreaId, x => x.TotalApoyos);
-
-                // Mapear las áreas y asignar el total de apoyos por área
-                var areasDTO = mapper.Map<List<AreaDTO>>(areas);
-                foreach (var area in areasDTO)
-                {
-                    if (totalApoyosPorArea.TryGetValue(area.Id ?? 0, out int total))
-                    {
-                        area.TotalApoyosPorArea = total;
-                    }
-                    else
-                    {
-                        area.TotalApoyosPorArea = 0; // Asignar cero si no hay apoyos para el área
-                    }
-                }
-
-                return Ok(areasDTO);
+                var tiposDTO = mapper.Map<List<TipoIncidenciaDTO>>(tipo);
+                
+                return Ok(tiposDTO);
             }
             catch (Exception ex)
             {
@@ -71,23 +53,23 @@ namespace APOYOS_SOCIALES.Controllers
         }
 
         [HttpPost("crear")]
-        public async Task<ActionResult> Post(AreaDTO dto)
+        public async Task<ActionResult> Post(TipoIncidenciaDTO dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var existeArea = await context.Areas.AnyAsync(n => n.Nombre == dto.Nombre);
+            var existeTipo = await context.TiposIncidencias.AnyAsync(n => n.Nombre == dto.Nombre);
 
-            if (existeArea)
+            if (existeTipo)
             {
                 return Conflict();
             }
 
-            var area = mapper.Map<Area>(dto);
+            var tipo = mapper.Map<TipoIncidencia>(dto);
 
-            context.Add(area);
+            context.Add(tipo);
 
             try
             {
@@ -103,37 +85,37 @@ namespace APOYOS_SOCIALES.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var area = await context.Areas.FindAsync(id);
+            var tipo = await context.TiposIncidencias.FindAsync(id);
 
-            if (area == null)
+            if (tipo == null)
             {
                 return NotFound();
             }
 
-            context.Areas.Remove(area);
+            context.TiposIncidencias.Remove(tipo);
             await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         [HttpPut("actualizar/{id:int}")]
-        public async Task<ActionResult> Put(int id, [FromBody] AreaDTO dto)
+        public async Task<ActionResult> Put(int id, [FromBody] TipoIncidenciaDTO dto)
         {
             if (id != dto.Id)
             {
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var area = await context.Areas.FindAsync(id);
+            var tipo = await context.TiposIncidencias.FindAsync(id);
 
-            if (area == null)
+            if (tipo == null)
             {
                 return NotFound();
             }
 
-            mapper.Map(dto, area);
+            mapper.Map(dto, tipo);
 
-            context.Update(area);
+            context.Update(tipo);
 
             try
             {
@@ -141,22 +123,22 @@ namespace APOYOS_SOCIALES.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AreaExists(id))
+                if (!TipoExists(id))
                 {
                     return NotFound();
                 }
                 else
                 {
-                    throw;
+                    throw; 
                 }
             }
 
             return NoContent();
         }
 
-        private bool AreaExists(int id)
+        private bool TipoExists(int id)
         {
-            return context.Areas.Any(e => e.Id == id);
+            return context.TiposIncidencias.Any(e => e.Id == id);
         }
     }
 }
