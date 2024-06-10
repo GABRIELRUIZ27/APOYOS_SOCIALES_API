@@ -1,0 +1,25 @@
+INSERT INTO programas.rols (NombreRol) VALUES
+('Aministrador'),
+('Empleado');
+
+INSERT INTO programas.claims (ClaimType, ClaimValue, RolId) VALUES
+('CanAccessMapas' , 1, 1),
+('CanAccessMapasApoyos' , 1, 1),
+('CanAccessInicio',1,1),
+('CanAccessAdministracion',1,1),
+('CanAccessProgramasSociales',1,1),
+('CanAccessUsuarios',1,1),
+('CanAccessAreas',1,1),
+('CanAccessApoyos',1,1),
+('CanAccessSeguridad',1,1),
+('CanAccessTiposIncidencias',1,1),
+('CanAccessOperacion',1,1);
+
+INSERT INTO programas.comunidades (Nombre) VALUES
+('Tlatempan'),
+('San Matías Tepetomatitlán'),
+('Belen Atzitzimititlán'),
+('Centro');
+
+INSERT INTO programas.usuarios (NombreCompleto, Correo, Password, Estatus,RolId) VALUES
+('Gabriel Ruiz', 'admin@gmail.com', '123',1,1);
