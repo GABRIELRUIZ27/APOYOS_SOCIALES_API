@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APOYOSSOCIALES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240604174310_Initial")]
+    [Migration("20240610174408_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -150,6 +150,45 @@ namespace APOYOSSOCIALES.Migrations
                     b.ToTable("Comunidades");
                 });
 
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.Incidencia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AreaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comentarios")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ComunidadId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Foto")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Ubicacion")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AreaId");
+
+                    b.HasIndex("ComunidadId");
+
+                    b.ToTable("Incidencias");
+                });
+
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.ProgramaSocial", b =>
                 {
                     b.Property<int>("Id")
@@ -270,6 +309,25 @@ namespace APOYOSSOCIALES.Migrations
                         .IsRequired();
 
                     b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.Incidencia", b =>
+                {
+                    b.HasOne("APOYOS_SOCIALES.Entities.Area", "Area")
+                        .WithMany()
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("APOYOS_SOCIALES.Entities.Comunidad", "Comunidad")
+                        .WithMany()
+                        .HasForeignKey("ComunidadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Area");
+
+                    b.Navigation("Comunidad");
                 });
 
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Usuario", b =>
