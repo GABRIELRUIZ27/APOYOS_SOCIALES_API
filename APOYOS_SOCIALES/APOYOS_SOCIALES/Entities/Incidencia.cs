@@ -9,6 +9,6 @@
         public string Ubicacion { get; set; }
         public string Foto { get; set; }
         public Comunidad Comunidad { get; set; }
-        public Area Area { get; set; }
+        public TipoIncidencia TipoIncidencia { get; set; }
     }
 }

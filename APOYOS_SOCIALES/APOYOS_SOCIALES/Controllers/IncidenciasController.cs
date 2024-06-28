@@ -37,7 +37,7 @@ namespace APOYOS_SOCIALES.Controllers
         {
             var incidencia = await context.Incidencias
                 .Include(b => b.Comunidad)
-                .Include(s => s.Area)
+                .Include(s => s.TipoIncidencia)
                 .FirstOrDefaultAsync(v => v.Id == id);
 
             if (incidencia == null)
@@ -55,7 +55,7 @@ namespace APOYOS_SOCIALES.Controllers
             {
                 var incidencia = await context.Incidencias
                     .Include(v => v.Comunidad)
-                    .Include(s => s.Area)
+                    .Include(s => s.TipoIncidencia)
                     .ToListAsync();
 
                 if (!incidencia.Any())
@@ -85,7 +85,7 @@ namespace APOYOS_SOCIALES.Controllers
 
             var incidencia = mapper.Map<Incidencia>(dto);
             incidencia.Comunidad = await context.Comunidades.SingleOrDefaultAsync(s => s.Id == dto.Comunidad.Id);
-            incidencia.Area = await context.Areas.SingleOrDefaultAsync(s => s.Id == dto.Area.Id);
+            incidencia.TipoIncidencia = await context.TiposIncidencias.SingleOrDefaultAsync(s => s.Id == dto.TipoIncidencia.Id);
 
             context.Incidencias.Add(incidencia);
             await context.SaveChangesAsync();
@@ -134,7 +134,7 @@ namespace APOYOS_SOCIALES.Controllers
 
             mapper.Map(dto, incidencia);
             incidencia.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
-            incidencia.Area = await context.Areas.SingleOrDefaultAsync(s => s.Id == dto.Area.Id);
+            incidencia.TipoIncidencia = await context.TiposIncidencias.SingleOrDefaultAsync(s => s.Id == dto.TipoIncidencia.Id);
 
             context.Update(incidencia);
 

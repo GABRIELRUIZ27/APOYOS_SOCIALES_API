@@ -153,9 +153,6 @@ namespace APOYOSSOCIALES.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AreaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Comentarios")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -173,15 +170,18 @@ namespace APOYOSSOCIALES.Migrations
                     b.Property<decimal>("Longitud")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<int>("TipoIncidenciaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Ubicacion")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AreaId");
-
                     b.HasIndex("ComunidadId");
+
+                    b.HasIndex("TipoIncidenciaId");
 
                     b.ToTable("Incidencias");
                 });
@@ -310,21 +310,21 @@ namespace APOYOSSOCIALES.Migrations
 
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Incidencia", b =>
                 {
-                    b.HasOne("APOYOS_SOCIALES.Entities.Area", "Area")
-                        .WithMany()
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("APOYOS_SOCIALES.Entities.Comunidad", "Comunidad")
                         .WithMany()
                         .HasForeignKey("ComunidadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Area");
+                    b.HasOne("APOYOS_SOCIALES.Entities.TipoIncidencia", "TipoIncidencia")
+                        .WithMany()
+                        .HasForeignKey("TipoIncidenciaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Comunidad");
+
+                    b.Navigation("TipoIncidencia");
                 });
 
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Usuario", b =>

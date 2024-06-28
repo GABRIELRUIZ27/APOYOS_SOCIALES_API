@@ -3,7 +3,9 @@ INSERT INTO programas.rols (NombreRol) VALUES
 ('Empleado');
 
 INSERT INTO programas.claims (ClaimType, ClaimValue, RolId) VALUES
+('CanAccessMapasIncidencias' , 1, 1),
 ('CanAccessMapas' , 1, 1),
+('CanAccessIncidencias' , 1, 1),
 ('CanAccessMapasApoyos' , 1, 1),
 ('CanAccessInicio',1,1),
 ('CanAccessAdministracion',1,1),
