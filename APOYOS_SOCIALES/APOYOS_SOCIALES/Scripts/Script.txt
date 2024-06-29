@@ -2,6 +2,11 @@ INSERT INTO programas.rols (NombreRol) VALUES
 ('Aministrador'),
 ('Empleado');
 
+INSERT INTO programas.generos (Nombre) VALUES
+('Femenino'),
+('Masculino'),
+('No binario');
+
 INSERT INTO programas.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessMapasIncidencias' , 1, 1),
 ('CanAccessMapas' , 1, 1),

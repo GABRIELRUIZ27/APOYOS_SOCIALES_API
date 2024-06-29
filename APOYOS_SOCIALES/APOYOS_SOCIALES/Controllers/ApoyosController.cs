@@ -38,6 +38,7 @@ namespace APOYOS_SOCIALES.Controllers
             var apoyo = await context.Apoyos
                 .Include(b => b.Comunidad)
                 .Include(s => s.Area)
+                .Include(s => s.Genero)
                 .FirstOrDefaultAsync(v => v.Id == id);
 
             if (apoyo == null)
@@ -56,6 +57,7 @@ namespace APOYOS_SOCIALES.Controllers
                 var apoyo = await context.Apoyos
                     .Include(v => v.Comunidad)
                     .Include(s => s.Area)
+                    .Include(s => s.Genero)
                     .ToListAsync();
 
                 if (!apoyo.Any())
@@ -86,7 +88,8 @@ namespace APOYOS_SOCIALES.Controllers
             var apoyo = mapper.Map<Apoyo>(dto);
             apoyo.Comunidad = await context.Comunidades.SingleOrDefaultAsync(s => s.Id == dto.Comunidad.Id);
             apoyo.Area = await context.Areas.SingleOrDefaultAsync(s => s.Id == dto.Area.Id);
-
+            apoyo.Genero = await context.Generos.SingleOrDefaultAsync(s => s.Id == dto.Genero.Id);
+            
             context.Apoyos.Add(apoyo);
             await context.SaveChangesAsync();
 
@@ -135,6 +138,7 @@ namespace APOYOS_SOCIALES.Controllers
             mapper.Map(dto, apoyos);
             apoyos.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
             apoyos.Area = await context.Areas.SingleOrDefaultAsync(s => s.Id == dto.Area.Id);
+            apoyos.Genero = await context.Generos.SingleOrDefaultAsync(s => s.Id == dto.Genero.Id);
 
             context.Update(apoyos);
 

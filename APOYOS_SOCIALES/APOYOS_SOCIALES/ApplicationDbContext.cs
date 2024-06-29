@@ -21,7 +21,8 @@ namespace APOYOS_SOCIALES
         public DbSet<Area> Areas { get; set; } 
         public DbSet<Apoyo> Apoyos { get; set; }
         public DbSet<TipoIncidencia> TiposIncidencias { get; set; }
+        public DbSet<Genero> Generos { get; set; } 
         public DbSet<Incidencia> Incidencias { get; set; }
-         
+
     }
 }

@@ -1,10 +1,8 @@
 ﻿namespace APOYOS_SOCIALES.DTOs
 {
-    public class ProgramaSocialDTO
+    public class GeneroDTO 
     {
         public int? Id { get; set; }
         public string? Nombre { get; set; }
-        public bool? Estatus { get; set; }
-        public AreaDTO Area { get; set; }
     }
 }
