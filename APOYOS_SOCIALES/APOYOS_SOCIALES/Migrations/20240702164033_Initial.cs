@@ -53,6 +53,21 @@ namespace APOYOSSOCIALES.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Cargos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cargos", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Comunidades",
                 columns: table => new
                 {
@@ -188,6 +203,46 @@ namespace APOYOSSOCIALES.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Personales",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Edad = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FechaContratacion = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Salario = table.Column<int>(type: "int", nullable: false),
+                    GeneroId = table.Column<int>(type: "int", nullable: false),
+                    CargoId = table.Column<int>(type: "int", nullable: false),
+                    AreaId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Personales", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Personales_Areas_AreaId",
+                        column: x => x.AreaId,
+                        principalTable: "Areas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Personales_Cargos_CargoId",
+                        column: x => x.CargoId,
+                        principalTable: "Cargos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Personales_Generos_GeneroId",
+                        column: x => x.GeneroId,
+                        principalTable: "Generos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Claims",
                 columns: table => new
                 {
@@ -309,6 +364,21 @@ namespace APOYOSSOCIALES.Migrations
                 column: "TipoIncidenciaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Personales_AreaId",
+                table: "Personales",
+                column: "AreaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personales_CargoId",
+                table: "Personales",
+                column: "CargoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personales_GeneroId",
+                table: "Personales",
+                column: "GeneroId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Programassociales_AreaId",
                 table: "Programassociales",
                 column: "AreaId");
@@ -340,19 +410,25 @@ namespace APOYOSSOCIALES.Migrations
                 name: "Incidencias");
 
             migrationBuilder.DropTable(
+                name: "Personales");
+
+            migrationBuilder.DropTable(
                 name: "Programassociales");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
 
             migrationBuilder.DropTable(
-                name: "Generos");
-
-            migrationBuilder.DropTable(
                 name: "Comunidades");
 
             migrationBuilder.DropTable(
                 name: "TiposIncidencias");
+
+            migrationBuilder.DropTable(
+                name: "Cargos");
+
+            migrationBuilder.DropTable(
+                name: "Generos");
 
             migrationBuilder.DropTable(
                 name: "Areas");

@@ -23,6 +23,8 @@ namespace APOYOS_SOCIALES
         public DbSet<TipoIncidencia> TiposIncidencias { get; set; }
         public DbSet<Genero> Generos { get; set; } 
         public DbSet<Incidencia> Incidencias { get; set; }
+        public DbSet<Personal> Personales { get; set; }
+        public DbSet<Cargo> Cargos { get; set; } 
 
     }
 }

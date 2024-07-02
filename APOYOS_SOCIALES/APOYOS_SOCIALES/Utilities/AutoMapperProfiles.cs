@@ -31,6 +31,9 @@ namespace simpatizantes_api.Utilities
             CreateMap<Comunidad, ComunidadDTO>();
             CreateMap<ComunidadDTO, Comunidad>();
 
+            CreateMap<Cargo, CargoDTO>();
+            CreateMap<CargoDTO, Cargo>();
+
             CreateMap<Area, AreaDTO>();
             CreateMap<AreaDTO, Area>();
 
@@ -46,6 +49,12 @@ namespace simpatizantes_api.Utilities
                 .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area))
                 .ForMember(dest => dest.Genero, opt => opt.MapFrom(src => src.Genero))
                 .ForMember(dest => dest.Comunidad, opt => opt.MapFrom(src => src.Comunidad));
+
+            CreateMap<PersonalDTO, Personal>();
+            CreateMap<Personal, PersonalDTO>()
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area))
+                .ForMember(dest => dest.Cargo, opt => opt.MapFrom(src => src.Cargo))
+                .ForMember(dest => dest.Genero, opt => opt.MapFrom(src => src.Genero));
 
             CreateMap<TipoIncidencia, TipoIncidenciaDTO>();
             CreateMap<TipoIncidenciaDTO, TipoIncidencia>();

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APOYOSSOCIALES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240628174824_Initial")]
+    [Migration("20240702164033_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -124,6 +124,21 @@ namespace APOYOSSOCIALES.Migrations
                     b.ToTable("Areas");
                 });
 
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.Cargo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cargos");
+                });
+
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Claim", b =>
                 {
                     b.Property<int>("Id")
@@ -214,6 +229,47 @@ namespace APOYOSSOCIALES.Migrations
                     b.HasIndex("TipoIncidenciaId");
 
                     b.ToTable("Incidencias");
+                });
+
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.Personal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AreaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CargoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Edad")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FechaContratacion")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("GeneroId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Salario")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AreaId");
+
+                    b.HasIndex("CargoId");
+
+                    b.HasIndex("GeneroId");
+
+                    b.ToTable("Personales");
                 });
 
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.ProgramaSocial", b =>
@@ -368,6 +424,31 @@ namespace APOYOSSOCIALES.Migrations
                     b.Navigation("Comunidad");
 
                     b.Navigation("TipoIncidencia");
+                });
+
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.Personal", b =>
+                {
+                    b.HasOne("APOYOS_SOCIALES.Entities.Area", "Area")
+                        .WithMany()
+                        .HasForeignKey("AreaId");
+
+                    b.HasOne("APOYOS_SOCIALES.Entities.Cargo", "Cargo")
+                        .WithMany()
+                        .HasForeignKey("CargoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("APOYOS_SOCIALES.Entities.Genero", "Genero")
+                        .WithMany()
+                        .HasForeignKey("GeneroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Area");
+
+                    b.Navigation("Cargo");
+
+                    b.Navigation("Genero");
                 });
 
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.ProgramaSocial", b =>
