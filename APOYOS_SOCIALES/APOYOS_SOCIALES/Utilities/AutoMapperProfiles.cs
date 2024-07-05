@@ -25,8 +25,15 @@ namespace simpatizantes_api.Utilities
                 .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area))
                 .ForMember(dest => dest.Rol, opt => opt.MapFrom(src => src.Rol));
 
+            CreateMap<FondoDTO, Fondo>();
+            CreateMap<Fondo, FondoDTO>()
+                .ForMember(dest => dest.TipoDistribucion, opt => opt.MapFrom(src => src.TipoDistribucion));
+
             CreateMap<Rol, RolDTO>();
             CreateMap<RolDTO, Rol>();
+
+            CreateMap<TipoDistribucion, TipoDistribucionDTO>();
+            CreateMap<TipoDistribucionDTO, TipoDistribucion>();
 
             CreateMap<Comunidad, ComunidadDTO>();
             CreateMap<ComunidadDTO, Comunidad>();
@@ -43,6 +50,10 @@ namespace simpatizantes_api.Utilities
             CreateMap<ProgramaSocial, ProgramaSocialDTO>()
                 .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area));
             CreateMap<ProgramaSocialDTO, ProgramaSocial>();
+
+            CreateMap<AdquisicionDTO, Adquisicion>();
+            CreateMap<Adquisicion, AdquisicionDTO>()
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area));
 
             CreateMap<ApoyoDTO, Apoyo>();
             CreateMap<Apoyo, ApoyoDTO>()

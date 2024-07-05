@@ -113,6 +113,21 @@ namespace APOYOSSOCIALES.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "TiposDistribuciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TiposDistribuciones", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "TiposIncidencias",
                 columns: table => new
                 {
@@ -128,6 +143,39 @@ namespace APOYOSSOCIALES.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TiposIncidencias", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Adquisiciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Folio = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    PrecioUnitario = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    PrecioTotal = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Proveedor = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Marca = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FechaAdquisicion = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AreaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Adquisiciones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Adquisiciones_Areas_AreaId",
+                        column: x => x.AreaId,
+                        principalTable: "Areas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -299,6 +347,29 @@ namespace APOYOSSOCIALES.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Fondos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Cantidad = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Periodo = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TipoDistribucionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fondos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Fondos_TiposDistribuciones_TipoDistribucionId",
+                        column: x => x.TipoDistribucionId,
+                        principalTable: "TiposDistribuciones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Incidencias",
                 columns: table => new
                 {
@@ -334,6 +405,11 @@ namespace APOYOSSOCIALES.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Adquisiciones_AreaId",
+                table: "Adquisiciones",
+                column: "AreaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Apoyos_AreaId",
                 table: "Apoyos",
                 column: "AreaId");
@@ -352,6 +428,11 @@ namespace APOYOSSOCIALES.Migrations
                 name: "IX_Claims_RolId",
                 table: "Claims",
                 column: "RolId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Fondos_TipoDistribucionId",
+                table: "Fondos",
+                column: "TipoDistribucionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Incidencias_ComunidadId",
@@ -401,10 +482,16 @@ namespace APOYOSSOCIALES.Migrations
                 name: "Activetokens");
 
             migrationBuilder.DropTable(
+                name: "Adquisiciones");
+
+            migrationBuilder.DropTable(
                 name: "Apoyos");
 
             migrationBuilder.DropTable(
                 name: "Claims");
+
+            migrationBuilder.DropTable(
+                name: "Fondos");
 
             migrationBuilder.DropTable(
                 name: "Incidencias");
@@ -417,6 +504,9 @@ namespace APOYOSSOCIALES.Migrations
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "TiposDistribuciones");
 
             migrationBuilder.DropTable(
                 name: "Comunidades");
