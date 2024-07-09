@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APOYOSSOCIALES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240705024558_Initial")]
+    [Migration("20240708184648_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -323,8 +323,8 @@ namespace APOYOSSOCIALES.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Salario")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Salario")
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 

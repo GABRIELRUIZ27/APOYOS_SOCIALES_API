@@ -9,7 +9,7 @@ namespace APOYOS_SOCIALES.DTOs
         public string? Edad { get; set; }
         public CargoDTO Cargo { get; set; } 
         public string? FechaContratacion { get; set; }
-        public int? Salario { get; set; }
+        public decimal? Salario { get; set; }
         public GeneroDTO Genero { get; set; }
         public AreaDTO? Area { get; set; }
     }

@@ -262,7 +262,7 @@ namespace APOYOSSOCIALES.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaContratacion = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Salario = table.Column<int>(type: "int", nullable: false),
+                    Salario = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     GeneroId = table.Column<int>(type: "int", nullable: false),
                     CargoId = table.Column<int>(type: "int", nullable: false),
                     AreaId = table.Column<int>(type: "int", nullable: true)

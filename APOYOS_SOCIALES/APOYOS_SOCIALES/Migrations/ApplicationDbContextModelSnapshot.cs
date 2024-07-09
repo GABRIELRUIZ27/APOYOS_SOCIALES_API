@@ -320,8 +320,8 @@ namespace APOYOSSOCIALES.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Salario")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Salario")
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 
