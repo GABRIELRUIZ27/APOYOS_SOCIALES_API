@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -136,6 +137,50 @@ namespace APOYOS_SOCIALES.Controllers
             {
                 Console.WriteLine($"Error: {ex.Message}");
                 return StatusCode(500, "Error al obtener el número de empleados por área");
+            }
+        }
+
+        [HttpGet("adquisiciones-por-dia")]
+        public async Task<ActionResult<IEnumerable<AdquisicionesPorDiaDTO>>> GetAdquisicionesPorDia()
+        {
+            try
+            {
+                // Obtener todas las adquisiciones en memoria
+                var adquisiciones = await context.Adquisiciones
+                    .Select(a => new {
+                        FechaAdquisicion = DateTime.ParseExact(a.FechaAdquisicion, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                    })
+                    .ToListAsync();
+
+                // Obtener la fecha mínima y máxima
+                var minDate = adquisiciones.Min(a => a.FechaAdquisicion);
+                var maxDate = adquisiciones.Max(a => a.FechaAdquisicion);
+
+                // Generar todas las fechas en el rango desde minDate hasta maxDate
+                var allDates = Enumerable.Range(0, (maxDate - minDate).Days + 1)
+                                         .Select(offset => minDate.AddDays(offset))
+                                         .ToList();
+
+                // Agrupar las adquisiciones por fecha
+                var adquisicionesPorFecha = adquisiciones
+                    .GroupBy(a => a.FechaAdquisicion)
+                    .Select(g => new { Fecha = g.Key, Cantidad = g.Count() })
+                    .ToList();
+
+                // Generar la lista de DTOs con todas las fechas y sus cantidades de adquisiciones
+                var adquisicionesPorDia = allDates.Select(date => new AdquisicionesPorDiaDTO
+                {
+                    Fecha = date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    Cantidad = adquisicionesPorFecha.FirstOrDefault(a => a.Fecha == date)?.Cantidad ?? 0
+                }).ToList();
+
+                return Ok(adquisicionesPorDia);
+            }
+            catch (Exception ex)
+            {
+                // Registro de errores para depuración
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, $"Error al obtener las adquisiciones por día: {ex.Message}");
             }
         }
     }
