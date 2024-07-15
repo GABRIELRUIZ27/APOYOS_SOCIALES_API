@@ -183,5 +183,72 @@ namespace APOYOS_SOCIALES.Controllers
                 return StatusCode(500, $"Error al obtener las adquisiciones por día: {ex.Message}");
             }
         }
+
+        [HttpGet("adquisiciones-por-area")]
+        public async Task<ActionResult<EmpleadosPorGeneroDTO>> GetAdquisicionesPorArea()
+        {
+            try
+            {
+                var adquisicionesPorArea = await context.Adquisiciones
+                    .GroupBy(p => p.Area.Nombre)
+                    .Select(g => new { Area = g.Key, Count = g.Count() })
+                    .ToDictionaryAsync(g => g.Area, g => g.Count);
+
+                var adquisicionesPorAreaDTO = new AdquisicionesPorAreaDTO
+                {
+                    AdquisicionesPorArea = adquisicionesPorArea
+                };
+
+                return Ok(adquisicionesPorAreaDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Error al obtener el número de adquisiciones por área");
+            }
+        }
+
+        [HttpGet("valor-adquisiciones")]
+        public async Task<ActionResult<ValorAdquisicionesDTO>> GetTotalAdquisiciones()
+        {
+            try
+            {
+                decimal valorAdquisiciones = await context.Adquisiciones
+                    .SumAsync(p => (decimal?)p.PrecioTotal ?? 0);
+
+                var valorAdquisicionesDTO = new ValorAdquisicionesDTO
+                {
+                    ValorAdquisiciones = valorAdquisiciones
+                };
+
+                return Ok(valorAdquisicionesDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Error al obtener el valor de adquisiciones");
+            }
+        }
+
+        [HttpGet("total-adquisiciones")]
+        public async Task<ActionResult<TotalAdquisicionesDTO>> GetValorAdquisiciones() 
+        {
+            try
+            {
+                int totalAdquisiciones = await context.Adquisiciones.CountAsync();
+
+                var totalAdquisicionesDTO = new TotalAdquisicionesDTO
+                {
+                    TotalAdquisiciones = totalAdquisiciones
+                };
+
+                return Ok(totalAdquisicionesDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Error al obtener el total de adquisiciones");
+            }
+        }
     }
 }

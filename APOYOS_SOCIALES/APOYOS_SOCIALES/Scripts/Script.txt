@@ -18,6 +18,7 @@ INSERT INTO programas.generos (Nombre) VALUES
 
 INSERT INTO programas.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessPersonal' , 1, 1),
+('CanAccessSolicitudes' , 1, 1),
 ('CanAccessMapasIncidencias' , 1, 1),
 ('CanAccessMapas' , 1, 1),
 ('CanAccessIncidencias' , 1, 1),

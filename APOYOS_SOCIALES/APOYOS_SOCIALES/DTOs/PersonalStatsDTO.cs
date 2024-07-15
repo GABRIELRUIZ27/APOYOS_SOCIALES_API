@@ -23,4 +23,17 @@
     {
         public int TotalAreas { get; set; }
     }
+    public class AdquisicionesPorAreaDTO
+    {
+        public Dictionary<string, int> AdquisicionesPorArea { get; set; }
+    }
+    public class TotalAdquisicionesDTO 
+    {
+        public int TotalAdquisiciones { get; set; }
+    }
+
+    public class ValorAdquisicionesDTO 
+    {
+        public decimal ValorAdquisiciones { get; set; }
+    }
 }
