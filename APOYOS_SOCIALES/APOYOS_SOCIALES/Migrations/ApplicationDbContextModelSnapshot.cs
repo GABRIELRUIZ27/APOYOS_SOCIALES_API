@@ -267,6 +267,10 @@ namespace APOYOSSOCIALES.Migrations
                     b.Property<int>("ComunidadId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Fecha")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Foto")
                         .IsRequired()
                         .HasColumnType("longtext");

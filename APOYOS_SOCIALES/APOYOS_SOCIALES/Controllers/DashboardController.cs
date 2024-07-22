@@ -145,29 +145,24 @@ namespace APOYOS_SOCIALES.Controllers
         {
             try
             {
-                // Obtener todas las adquisiciones en memoria
                 var adquisiciones = await context.Adquisiciones
                     .Select(a => new {
                         FechaAdquisicion = DateTime.ParseExact(a.FechaAdquisicion, "yyyy-MM-dd", CultureInfo.InvariantCulture)
                     })
                     .ToListAsync();
 
-                // Obtener la fecha mínima y máxima
                 var minDate = adquisiciones.Min(a => a.FechaAdquisicion);
                 var maxDate = adquisiciones.Max(a => a.FechaAdquisicion);
 
-                // Generar todas las fechas en el rango desde minDate hasta maxDate
                 var allDates = Enumerable.Range(0, (maxDate - minDate).Days + 1)
                                          .Select(offset => minDate.AddDays(offset))
                                          .ToList();
 
-                // Agrupar las adquisiciones por fecha
                 var adquisicionesPorFecha = adquisiciones
                     .GroupBy(a => a.FechaAdquisicion)
                     .Select(g => new { Fecha = g.Key, Cantidad = g.Count() })
                     .ToList();
 
-                // Generar la lista de DTOs con todas las fechas y sus cantidades de adquisiciones
                 var adquisicionesPorDia = allDates.Select(date => new AdquisicionesPorDiaDTO
                 {
                     Fecha = date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
@@ -178,7 +173,6 @@ namespace APOYOS_SOCIALES.Controllers
             }
             catch (Exception ex)
             {
-                // Registro de errores para depuración
                 Console.WriteLine($"Error: {ex.Message}");
                 return StatusCode(500, $"Error al obtener las adquisiciones por día: {ex.Message}");
             }
@@ -231,7 +225,7 @@ namespace APOYOS_SOCIALES.Controllers
         }
 
         [HttpGet("total-adquisiciones")]
-        public async Task<ActionResult<TotalAdquisicionesDTO>> GetValorAdquisiciones() 
+        public async Task<ActionResult<TotalAdquisicionesDTO>> GetValorAdquisiciones()
         {
             try
             {
@@ -248,6 +242,126 @@ namespace APOYOS_SOCIALES.Controllers
             {
                 Console.WriteLine($"Error: {ex.Message}");
                 return StatusCode(500, "Error al obtener el total de adquisiciones");
+            }
+        }
+
+
+
+        [HttpGet("total-incidencias")]
+        public async Task<ActionResult<TotalEmpleadosDTO>> GetTotalIncidencias()
+        {
+            try
+            {
+                int totalIncidencias = await context.Incidencias.CountAsync();
+
+                var totalIncidenciasDTO = new TotalIncidenciasDTO
+                {
+                    TotalIncidencias = totalIncidencias
+                };
+
+                return Ok(totalIncidenciasDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Error al obtener el total de incidencias");
+            }
+        } 
+
+        [HttpGet("incidencias-por-comunidad")] 
+        public async Task<ActionResult<IncidenciasPorComunidadDTO>> GetIncidenciasPorComunidad()
+        {
+            try
+            {
+                var incidenciasPorComunidad = await context.Incidencias
+                    .GroupBy(p => p.Comunidad.Nombre)
+                    .Select(g => new { Comunidad = g.Key, Count = g.Count() })
+                    .ToDictionaryAsync(g => g.Comunidad, g => g.Count);
+
+                var incidenciasPorComunidadDTO = new IncidenciasPorComunidadDTO
+                {
+                    IncidenciasPorComunidad = incidenciasPorComunidad
+                };
+
+                return Ok(incidenciasPorComunidadDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Error al obtener el número de incidencias por comunidad");
+            }
+        }
+
+        [HttpGet("incidencias-por-dia")]
+        public async Task<ActionResult<IEnumerable<IncidenciasPorDiaDTO>>> GetIncidenciasPorDia()
+        {
+            try
+            {
+                var incidencias = await context.Incidencias
+                    .Select(a => new {
+                        Fecha = DateTime.ParseExact(a.Fecha, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                    })
+                    .ToListAsync();
+
+                var minDate = incidencias.Min(a => a.Fecha);
+                var maxDate = incidencias.Max(a => a.Fecha);
+
+                var allDates = Enumerable.Range(0, (maxDate - minDate).Days + 1)
+                                         .Select(offset => minDate.AddDays(offset))
+                                         .ToList();
+
+                var incidenciasPorFecha = incidencias
+                    .GroupBy(a => a.Fecha)
+                    .Select(g => new { Fecha = g.Key, Cantidad = g.Count() })
+                    .ToList();
+
+                var incidenciasPorDia = allDates.Select(date => new IncidenciasPorDiaDTO
+                {
+                    Fecha = date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    Cantidad = incidenciasPorFecha.FirstOrDefault(a => a.Fecha == date)?.Cantidad ?? 0
+                }).ToList();
+
+                return Ok(incidenciasPorDia);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, $"Error al obtener las incidencias por día: {ex.Message}");
+            }
+        }
+
+        [HttpGet("incidencia-mas-recurrente")]
+        public async Task<ActionResult<IncidenciaRecurrenteDTO>> GetIncidenciaMasRecurrente()
+        {
+            try
+            {
+                var incidenciaRecurrente = await context.Incidencias
+                    .GroupBy(i => i.TipoIncidencia)
+                    .OrderByDescending(g => g.Count())
+                    .Select(g => new
+                    {
+                        TipoIncidencia = g.Key,
+                        Count = g.Count()
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (incidenciaRecurrente == null)
+                {
+                    return NotFound("No hay incidencias registradas.");
+                }
+
+                var incidenciaRecurrenteDTO = new IncidenciaRecurrenteDTO
+                {
+                    TipoIncidencia = mapper.Map<TipoIncidenciaDTO>(incidenciaRecurrente.TipoIncidencia),
+                    Total = incidenciaRecurrente.Count
+                };
+
+                return Ok(incidenciaRecurrenteDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Error al obtener la incidencia más recurrente");
             }
         }
     }

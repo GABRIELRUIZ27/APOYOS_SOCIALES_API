@@ -8,6 +8,7 @@
         public decimal Longitud { get; set; }
         public string Ubicacion { get; set; }
         public string Foto { get; set; }
+        public string Fecha { get; set; }
         public Comunidad Comunidad { get; set; }
         public TipoIncidencia TipoIncidencia { get; set; }
     }

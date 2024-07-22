@@ -36,4 +36,12 @@
     {
         public decimal ValorAdquisiciones { get; set; }
     }
+    public class TotalIncidenciasDTO
+    { 
+        public int TotalIncidencias { get; set; }
+    }
+    public class IncidenciasPorComunidadDTO 
+    {
+        public Dictionary<string, int> IncidenciasPorComunidad { get; set; }
+    }
 }

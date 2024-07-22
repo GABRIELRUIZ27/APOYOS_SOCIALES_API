@@ -383,6 +383,8 @@ namespace APOYOSSOCIALES.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Foto = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Fecha = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ComunidadId = table.Column<int>(type: "int", nullable: false),
                     TipoIncidenciaId = table.Column<int>(type: "int", nullable: false)
                 },

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APOYOSSOCIALES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240708184648_Initial")]
+    [Migration("20240718010731_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -269,6 +269,10 @@ namespace APOYOSSOCIALES.Migrations
 
                     b.Property<int>("ComunidadId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Fecha")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Foto")
                         .IsRequired()
