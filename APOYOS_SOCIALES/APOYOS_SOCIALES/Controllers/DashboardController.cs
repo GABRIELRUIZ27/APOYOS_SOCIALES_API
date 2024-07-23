@@ -364,5 +364,40 @@ namespace APOYOS_SOCIALES.Controllers
                 return StatusCode(500, "Error al obtener la incidencia más recurrente");
             }
         }
+
+        [HttpGet("incidencia-mas-recurrente-comunidad")]
+        public async Task<ActionResult<ComunidadRecurrenteDTO>> GetIncidenciaMasRecurrenteComunidad()
+        {
+            try
+            {
+                var comunidadRecurrente = await context.Incidencias
+                    .GroupBy(i => i.Comunidad)
+                    .OrderByDescending(g => g.Count())
+                    .Select(g => new
+                    {
+                        Comunidad = g.Key,
+                        Count = g.Count()
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (comunidadRecurrente == null)
+                {
+                    return NotFound("No hay incidencias registradas.");
+                }
+
+                var comunidadRecurrenteDTO = new ComunidadRecurrenteDTO
+                {
+                    Comunidad = mapper.Map<ComunidadDTO>(comunidadRecurrente.Comunidad),
+                    Total = comunidadRecurrente.Count
+                };
+
+                return Ok(comunidadRecurrenteDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Error al obtener la incidencia más recurrente");
+            }
+        }
     }
 }

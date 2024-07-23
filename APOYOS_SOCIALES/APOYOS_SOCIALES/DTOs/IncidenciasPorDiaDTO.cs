@@ -11,4 +11,10 @@
         public TipoIncidenciaDTO TipoIncidencia { get; set; }
         public int Total { get; set; }
     }
+
+    public class ComunidadRecurrenteDTO
+    {
+        public ComunidadDTO Comunidad { get; set; }
+        public int Total { get; set; }
+    }
 }
