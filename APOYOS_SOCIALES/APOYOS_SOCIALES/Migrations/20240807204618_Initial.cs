@@ -203,54 +203,6 @@ namespace APOYOSSOCIALES.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Apoyos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nombre = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Edad = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CURP = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Comentarios = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    Ubicacion = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Foto = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ComunidadId = table.Column<int>(type: "int", nullable: false),
-                    AreaId = table.Column<int>(type: "int", nullable: false),
-                    GeneroId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Apoyos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Apoyos_Areas_AreaId",
-                        column: x => x.AreaId,
-                        principalTable: "Areas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Apoyos_Comunidades_ComunidadId",
-                        column: x => x.ComunidadId,
-                        principalTable: "Comunidades",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Apoyos_Generos_GeneroId",
-                        column: x => x.GeneroId,
-                        principalTable: "Generos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Personales",
                 columns: table => new
                 {
@@ -406,6 +358,113 @@ namespace APOYOSSOCIALES.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "Apoyos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Edad = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CURP = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Comentarios = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Ubicacion = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Foto = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ComunidadId = table.Column<int>(type: "int", nullable: false),
+                    ProgramaSocialId = table.Column<int>(type: "int", nullable: false),
+                    AreaId = table.Column<int>(type: "int", nullable: false),
+                    GeneroId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Apoyos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Apoyos_Areas_AreaId",
+                        column: x => x.AreaId,
+                        principalTable: "Areas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Apoyos_Comunidades_ComunidadId",
+                        column: x => x.ComunidadId,
+                        principalTable: "Comunidades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Apoyos_Generos_GeneroId",
+                        column: x => x.GeneroId,
+                        principalTable: "Generos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Apoyos_Programassociales_ProgramaSocialId",
+                        column: x => x.ProgramaSocialId,
+                        principalTable: "Programassociales",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Solicitudes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Edad = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CURP = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Ubicacion = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ComunidadId = table.Column<int>(type: "int", nullable: false),
+                    AreaId = table.Column<int>(type: "int", nullable: false),
+                    GeneroId = table.Column<int>(type: "int", nullable: false),
+                    ProgramaSocialId = table.Column<int>(type: "int", nullable: false),
+                    Estatus = table.Column<bool>(type: "tinyint(1)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Solicitudes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Solicitudes_Areas_AreaId",
+                        column: x => x.AreaId,
+                        principalTable: "Areas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Solicitudes_Comunidades_ComunidadId",
+                        column: x => x.ComunidadId,
+                        principalTable: "Comunidades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Solicitudes_Generos_GeneroId",
+                        column: x => x.GeneroId,
+                        principalTable: "Generos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Solicitudes_Programassociales_ProgramaSocialId",
+                        column: x => x.ProgramaSocialId,
+                        principalTable: "Programassociales",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Adquisiciones_AreaId",
                 table: "Adquisiciones",
@@ -425,6 +484,11 @@ namespace APOYOSSOCIALES.Migrations
                 name: "IX_Apoyos_GeneroId",
                 table: "Apoyos",
                 column: "GeneroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Apoyos_ProgramaSocialId",
+                table: "Apoyos",
+                column: "ProgramaSocialId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Claims_RolId",
@@ -467,6 +531,26 @@ namespace APOYOSSOCIALES.Migrations
                 column: "AreaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Solicitudes_AreaId",
+                table: "Solicitudes",
+                column: "AreaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Solicitudes_ComunidadId",
+                table: "Solicitudes",
+                column: "ComunidadId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Solicitudes_GeneroId",
+                table: "Solicitudes",
+                column: "GeneroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Solicitudes_ProgramaSocialId",
+                table: "Solicitudes",
+                column: "ProgramaSocialId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_AreaId",
                 table: "Usuarios",
                 column: "AreaId");
@@ -502,7 +586,7 @@ namespace APOYOSSOCIALES.Migrations
                 name: "Personales");
 
             migrationBuilder.DropTable(
-                name: "Programassociales");
+                name: "Solicitudes");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
@@ -511,22 +595,25 @@ namespace APOYOSSOCIALES.Migrations
                 name: "TiposDistribuciones");
 
             migrationBuilder.DropTable(
-                name: "Comunidades");
-
-            migrationBuilder.DropTable(
                 name: "TiposIncidencias");
 
             migrationBuilder.DropTable(
                 name: "Cargos");
 
             migrationBuilder.DropTable(
+                name: "Comunidades");
+
+            migrationBuilder.DropTable(
                 name: "Generos");
 
             migrationBuilder.DropTable(
-                name: "Areas");
+                name: "Programassociales");
 
             migrationBuilder.DropTable(
                 name: "Rols");
+
+            migrationBuilder.DropTable(
+                name: "Areas");
         }
     }
 }

@@ -61,6 +61,12 @@ namespace simpatizantes_api.Utilities
                 .ForMember(dest => dest.Genero, opt => opt.MapFrom(src => src.Genero))
                 .ForMember(dest => dest.Comunidad, opt => opt.MapFrom(src => src.Comunidad));
 
+            CreateMap<SolicitudDTO, Solicitud>();
+            CreateMap<Solicitud, SolicitudDTO>()
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area))
+                .ForMember(dest => dest.Genero, opt => opt.MapFrom(src => src.Genero))
+                .ForMember(dest => dest.Comunidad, opt => opt.MapFrom(src => src.Comunidad));
+
             CreateMap<PersonalDTO, Personal>();
             CreateMap<Personal, PersonalDTO>()
                 .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area))

@@ -27,7 +27,8 @@ namespace APOYOS_SOCIALES
         public DbSet<Cargo> Cargos { get; set; }
         public DbSet<TipoDistribucion> TiposDistribuciones { get; set; }
         public DbSet<Fondo> Fondos { get; set; }
-        public DbSet<Adquisicion> Adquisiciones { get; set; } 
+        public DbSet<Adquisicion> Adquisiciones { get; set; }
+        public DbSet<Solicitud> Solicitudes { get; set; }
 
     }
 }

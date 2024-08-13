@@ -17,5 +17,6 @@ namespace APOYOS_SOCIALES.DTOs
         public ComunidadDTO Comunidad { get; set; }
         public AreaDTO Area { get; set; }
         public GeneroDTO Genero { get; set; }
+        public ProgramaSocialDTO ProgramaSocial { get; set; }
     }
 }
