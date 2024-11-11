@@ -75,7 +75,7 @@ namespace APOYOS_SOCIALES.Controllers
                 usuario.Area = null;
 
                 // Si es  empleado
-                if (dto.Rol.Id == 2)
+                if (dto.Rol.Id == 3)
                 {
 
                     if (await context.Usuarios.AnyAsync(c => c.Area.Id == dto.Area.Id))

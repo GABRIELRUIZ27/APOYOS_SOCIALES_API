@@ -29,6 +29,11 @@ namespace APOYOS_SOCIALES
         public DbSet<Fondo> Fondos { get; set; }
         public DbSet<Adquisicion> Adquisiciones { get; set; }
         public DbSet<Solicitud> Solicitudes { get; set; }
+        public DbSet<AguaPotable> AguaPotables { get; set; }
+        public DbSet<PadronAgua> PadronesAgua { get; set; }
+        public DbSet<TipoServicio> TipoServicios { get; set; }
+
+
 
     }
 }

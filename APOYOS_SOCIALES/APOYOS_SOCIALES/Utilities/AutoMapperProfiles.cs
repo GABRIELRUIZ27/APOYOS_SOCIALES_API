@@ -29,6 +29,12 @@ namespace simpatizantes_api.Utilities
             CreateMap<Fondo, FondoDTO>()
                 .ForMember(dest => dest.TipoDistribucion, opt => opt.MapFrom(src => src.TipoDistribucion));
 
+            CreateMap<AguaPotableDTO, AguaPotable>();
+            CreateMap<AguaPotable, AguaPotableDTO>()
+                .ForMember(dest => dest.Comunidad, opt => opt.MapFrom(src => src.Comunidad))
+                .ForMember(dest => dest.TipoServicio, opt => opt.MapFrom(src => src.TipoServicio));
+
+
             CreateMap<Rol, RolDTO>();
             CreateMap<RolDTO, Rol>();
 
@@ -47,6 +53,9 @@ namespace simpatizantes_api.Utilities
             CreateMap<Genero, GeneroDTO>();
             CreateMap<GeneroDTO, Genero>();
 
+            CreateMap<TipoServicio, TipoServicioDTO>();
+            CreateMap<TipoServicioDTO, TipoServicio>();
+
             CreateMap<ProgramaSocial, ProgramaSocialDTO>()
                 .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area));
             CreateMap<ProgramaSocialDTO, ProgramaSocial>();
@@ -54,6 +63,14 @@ namespace simpatizantes_api.Utilities
             CreateMap<AdquisicionDTO, Adquisicion>();
             CreateMap<Adquisicion, AdquisicionDTO>()
                 .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Area));
+
+            CreateMap<PadronAguaDTO, PadronAgua>()
+                .ForMember(dest => dest.Folio, opt => opt.MapFrom(src => src.Folio))
+                .ForMember(dest => dest.Periodo, opt => opt.MapFrom(src => src.Periodo))
+                .ForMember(dest => dest.Agua, opt => opt.MapFrom(src => src.Agua));
+
+            CreateMap<PadronAgua, PadronAguaDTO>()
+                .ForMember(dest => dest.Agua, opt => opt.MapFrom(src => src.Agua));
 
             CreateMap<ApoyoDTO, Apoyo>();
             CreateMap<Apoyo, ApoyoDTO>()

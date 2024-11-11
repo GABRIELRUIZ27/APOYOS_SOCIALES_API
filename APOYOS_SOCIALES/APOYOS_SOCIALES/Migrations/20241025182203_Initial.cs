@@ -128,6 +128,21 @@ namespace APOYOSSOCIALES.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "TipoServicios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipoServicios", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "TiposIncidencias",
                 columns: table => new
                 {
@@ -322,6 +337,43 @@ namespace APOYOSSOCIALES.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "AguaPotables",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Domicilio = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Folio = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Contrato = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ComunidadId = table.Column<int>(type: "int", nullable: false),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Periodo = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TipoServicioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AguaPotables", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AguaPotables_Comunidades_ComunidadId",
+                        column: x => x.ComunidadId,
+                        principalTable: "Comunidades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AguaPotables_TipoServicios_TipoServicioId",
+                        column: x => x.TipoServicioId,
+                        principalTable: "TipoServicios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Incidencias",
                 columns: table => new
                 {
@@ -465,10 +517,56 @@ namespace APOYOSSOCIALES.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "PadronesAgua",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Fecha = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Importe = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Descripcion = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Periodo = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Servicio = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Alcantarillado = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AguaId = table.Column<int>(type: "int", nullable: false),
+                    Inapam = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    Pago = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Folio = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PadronesAgua", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PadronesAgua_AguaPotables_AguaId",
+                        column: x => x.AguaId,
+                        principalTable: "AguaPotables",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Adquisiciones_AreaId",
                 table: "Adquisiciones",
                 column: "AreaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AguaPotables_ComunidadId",
+                table: "AguaPotables",
+                column: "ComunidadId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AguaPotables_TipoServicioId",
+                table: "AguaPotables",
+                column: "TipoServicioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Apoyos_AreaId",
@@ -509,6 +607,11 @@ namespace APOYOSSOCIALES.Migrations
                 name: "IX_Incidencias_TipoIncidenciaId",
                 table: "Incidencias",
                 column: "TipoIncidenciaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PadronesAgua_AguaId",
+                table: "PadronesAgua",
+                column: "AguaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Personales_AreaId",
@@ -583,6 +686,9 @@ namespace APOYOSSOCIALES.Migrations
                 name: "Incidencias");
 
             migrationBuilder.DropTable(
+                name: "PadronesAgua");
+
+            migrationBuilder.DropTable(
                 name: "Personales");
 
             migrationBuilder.DropTable(
@@ -598,10 +704,10 @@ namespace APOYOSSOCIALES.Migrations
                 name: "TiposIncidencias");
 
             migrationBuilder.DropTable(
-                name: "Cargos");
+                name: "AguaPotables");
 
             migrationBuilder.DropTable(
-                name: "Comunidades");
+                name: "Cargos");
 
             migrationBuilder.DropTable(
                 name: "Generos");
@@ -611,6 +717,12 @@ namespace APOYOSSOCIALES.Migrations
 
             migrationBuilder.DropTable(
                 name: "Rols");
+
+            migrationBuilder.DropTable(
+                name: "Comunidades");
+
+            migrationBuilder.DropTable(
+                name: "TipoServicios");
 
             migrationBuilder.DropTable(
                 name: "Areas");

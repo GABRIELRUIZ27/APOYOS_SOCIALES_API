@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APOYOSSOCIALES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240807204618_Initial")]
+    [Migration("20241025182203_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -86,6 +86,45 @@ namespace APOYOSSOCIALES.Migrations
                     b.HasIndex("AreaId");
 
                     b.ToTable("Adquisiciones");
+                });
+
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.AguaPotable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComunidadId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Contrato")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Domicilio")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Folio")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Periodo")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TipoServicioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComunidadId");
+
+                    b.HasIndex("TipoServicioId");
+
+                    b.ToTable("AguaPotables");
                 });
 
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Apoyo", b =>
@@ -305,6 +344,55 @@ namespace APOYOSSOCIALES.Migrations
                     b.ToTable("Incidencias");
                 });
 
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.PadronAgua", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AguaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Alcantarillado")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Fecha")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Folio")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Importe")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool?>("Inapam")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Pago")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Periodo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Servicio")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AguaId");
+
+                    b.ToTable("PadronesAgua");
+                });
+
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Personal", b =>
                 {
                     b.Property<int>("Id")
@@ -477,6 +565,21 @@ namespace APOYOSSOCIALES.Migrations
                     b.ToTable("TiposIncidencias");
                 });
 
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.TipoServicio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TipoServicios");
+                });
+
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -522,6 +625,25 @@ namespace APOYOSSOCIALES.Migrations
                         .IsRequired();
 
                     b.Navigation("Area");
+                });
+
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.AguaPotable", b =>
+                {
+                    b.HasOne("APOYOS_SOCIALES.Entities.Comunidad", "Comunidad")
+                        .WithMany()
+                        .HasForeignKey("ComunidadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("APOYOS_SOCIALES.Entities.TipoServicio", "TipoServicio")
+                        .WithMany()
+                        .HasForeignKey("TipoServicioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comunidad");
+
+                    b.Navigation("TipoServicio");
                 });
 
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Apoyo", b =>
@@ -598,6 +720,17 @@ namespace APOYOSSOCIALES.Migrations
                     b.Navigation("Comunidad");
 
                     b.Navigation("TipoIncidencia");
+                });
+
+            modelBuilder.Entity("APOYOS_SOCIALES.Entities.PadronAgua", b =>
+                {
+                    b.HasOne("APOYOS_SOCIALES.Entities.AguaPotable", "Agua")
+                        .WithMany()
+                        .HasForeignKey("AguaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Agua");
                 });
 
             modelBuilder.Entity("APOYOS_SOCIALES.Entities.Personal", b =>

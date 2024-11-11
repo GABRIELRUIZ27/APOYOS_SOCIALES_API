@@ -1,6 +1,8 @@
 INSERT INTO programas.rols (NombreRol) VALUES
 ('Administrador'),
-('Empleado');
+('Contaduría'),
+('Dirección'),
+('Coordinación');
 
 INSERT INTO programas.cargos (Nombre) VALUES
 ('Presidente Municipal'),
@@ -17,6 +19,8 @@ INSERT INTO programas.generos (Nombre) VALUES
 ('No binario');
 
 INSERT INTO programas.claims (ClaimType, ClaimValue, RolId) VALUES
+('CanAccessAgua' , 1, 2),
+('canAccessContaduria' , 1, 2),
 ('CanAccessPersonal' , 1, 1),
 ('CanAccessSolicitudes' , 1, 1),
 ('CanAccessMapasIncidencias' , 1, 1),
